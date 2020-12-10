@@ -20,4 +20,4 @@ const EntrySchema = new Schema({
   },
 })
 
-module.exports = Investor = mongoose.model('calendar_entry', EntrySchema)
+module.exports = CalendarEntry = mongoose.model('calendar_entry', EntrySchema)

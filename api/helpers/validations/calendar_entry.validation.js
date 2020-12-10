@@ -1,18 +1,45 @@
-const Joi = require('joi')
+const Joi = require('joi-oid')
 
-const credentialsValidation = request => {
-  const userSchema = {
-    username: Joi.string().required(),
-    password: Joi.string().required()
-  }
-  return Joi.validate(request, userSchema)
+const createValidation = (request) => {
+  const calendarSchema = Joi.object({
+    title: Joi.string().required(),
+    date: Joi.date().iso().required(),
+    recurrence: Joi.string()
+      .valid('none', 'daily', 'weekly', 'monthly', 'yearly')
+      .required(),
+    description: Joi.string().optional(),
+  })
+  return calendarSchema.validate(request)
 }
-const suspendValidation = request => {
-  const suspendSchema = {
-    id: Joi.number().required(),
-    toSuspend: Joi.bool().required()
-  }
-  return Joi.validate(request, suspendSchema)
+const updateValidation = (request) => {
+  const calendarSchema = Joi.object({
+    id: Joi.objectId().required(),
+    title: Joi.string().optional(),
+    date: Joi.iso().date().optional(),
+    recurrence: Joi.string()
+      .valid('none', 'daily', 'weekly', 'monthly', 'yearly')
+      .optional(),
+    description: Joi.string().optional(),
+  })
+  return calendarSchema.validate(request)
+}
+const idValidation = (request) => {
+  const calendarSchema = Joi.object({
+    id: Joi.objectId().required(),
+  })
+  return calendarSchema.validate(request)
+}
+const dateValidation = (request) => {
+  const calendarSchema = Joi.object({
+    start_date: Joi.date().iso().required(),
+    end_date: Joi.date().iso().required(),
+  })
+  return calendarSchema.validate(request)
 }
 
-module.exports = { credentialsValidation, suspendValidation }
+module.exports = {
+  createValidation,
+  updateValidation,
+  idValidation,
+  dateValidation,
+}

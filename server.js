@@ -8,8 +8,6 @@ const calendar_entry = require('./api/routers/calendar_entry.router')
 
 // DB Config
 const uri = require('./config/keys').mongoURI
-console.log(uri)
-
 const dbConfig = { useNewUrlParser: true, useUnifiedTopology: true }
 
 // Connect to mongo

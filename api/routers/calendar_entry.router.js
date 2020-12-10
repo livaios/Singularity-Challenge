@@ -8,10 +8,16 @@ const {
   EditEntry,
   GetEntryById,
   GetAllEntries,
+  GetEntriesInDateRange,
+  DeleteById,
+  DeleteAllEntries,
 } = calendarEntryController
 
 router.post('/create', AddEntry)
 router.put('/update', EditEntry)
 router.get('/getById', GetEntryById)
 router.get('/getAll', GetAllEntries)
+router.get('/getInRange', GetEntriesInDateRange)
+router.delete('/deleteById', DeleteById)
+router.delete('/reset', DeleteAllEntries)
 module.exports = router
