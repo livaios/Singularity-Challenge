@@ -14,7 +14,7 @@ const AddEntry = async (req, res) => {
     const entry = await CalendarEntry.create({
       ...req.body,
     })
-    res.json({ msg: 'Entry was created successfully', data: entry })
+    return res.json({ msg: 'Entry was created successfully', data: entry })
   } catch (err) {
     return res.send(err)
   }
@@ -28,13 +28,16 @@ const EditEntry = async (req, res) => {
         .send({ error: isValidated.error.details[0].message })
     const { id } = req.body
     const entry = await CalendarEntry.findById(id)
-    res.json({ data: entry })
     if (!entry) return res.status(404).send({ error: 'Entry does not exist' })
     const updated_entry = await CalendarEntry.findByIdAndUpdate(id, req.body, {
       new: true,
     })
-    res.json({ msg: 'Entry was updated successfully', data: updated_entry })
+    return res.json({
+      msg: 'Entry was updated successfully',
+      data: updated_entry,
+    })
   } catch (err) {
+    console.log(err)
     return res.send(err)
   }
 }
@@ -48,7 +51,7 @@ const GetEntryById = async (req, res) => {
     const { id } = req.body
     const entry = await CalendarEntry.findById({ id })
     if (!entry) return res.status(404).send({ error: 'Entry does not exist' })
-    res.json({ data: entry })
+    return res.json({ data: entry })
   } catch (err) {
     return res.send(err)
   }
@@ -56,7 +59,7 @@ const GetEntryById = async (req, res) => {
 const GetAllEntries = async (req, res) => {
   try {
     const entries = await CalendarEntry.find()
-    res.json({ data: entries })
+    return res.json({ data: entries })
   } catch (err) {
     return res.send(err)
   }
@@ -75,7 +78,7 @@ const GetEntriesInDateRange = async (req, res) => {
         $lt: new Date(new Date(end_date).setHours(23, 59, 59)),
       },
     }).sort({ date: 'asc' })
-    res.json({ data: entries })
+    return res.json({ data: entries })
   } catch (err) {
     return res.send(err)
   }
@@ -89,15 +92,15 @@ const DeleteById = async (req, res) => {
         .send({ error: isValidated.error.details[0].message })
     const { id } = req.body
     const deleted = await CalendarEntry.findByIdAndDelete(id)
-    res.json({ msg: 'Entry successfully deleted', data: deleted })
+    return res.json({ msg: 'Entry successfully deleted', data: deleted })
   } catch (err) {
     return res.send(err)
   }
 }
 const DeleteAllEntries = async (req, res) => {
   try {
-    const deleted = await CalendarEntry.remove({})
-    res.json({ msg: 'Entries successfully deleted', data: deleted })
+    const deleted = await CalendarEntry.deleteMany({})
+    return res.json({ msg: 'Entries successfully deleted', data: deleted })
   } catch (err) {
     return res.send(err)
   }
