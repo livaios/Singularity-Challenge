@@ -122,12 +122,9 @@ export class MyCalendar extends Component {
       recurrence,
       id,
     }
-    console.log('B', this.state.events)
-
     this.setState({
       events: [...this.state.events, event],
     })
-    console.log('After', this.state.events)
   }
   handleSelect = async (event) => {
     const { start } = event
@@ -156,30 +153,27 @@ export class MyCalendar extends Component {
         alert(res.data.msg)
       })
   }
-  checkReccurence = (event, rangeChange) => {
-    let end_date = new Date(
-      this.state.end.getFullYear(),
-      this.state.end.getMonth(),
-      0
-    )
-    let start_date = new Date(
-      this.state.start.getFullYear(),
-      this.state.start.getMonth(),
-      0
-    )
-    let curr_date, curr_days_in_month
-    let months
+  checkReccurence = (event) => {
+    // let end_date = new Date(
+    //   this.state.end.getFullYear(),
+    //   this.state.end.getMonth(),
+    //   0
+    // )
+
+    let curr_date
+    // curr_days_in_month
+    // let months
 
     curr_date = new Date(event.date)
-    curr_days_in_month = new Date(
-      curr_date.getFullYear(),
-      curr_date.getMonth(),
-      0
-    ).getDate()
-    months = (end_date.getFullYear() - curr_date.getFullYear()) * 12
-    months -= curr_date.getMonth()
-    months += end_date.getMonth()
-    months = months <= 0 ? 1 : months
+    // curr_days_in_month = new Date(
+    //   curr_date.getFullYear(),
+    //   curr_date.getMonth(),
+    //   0
+    // ).getDate()
+    // months = (end_date.getFullYear() - curr_date.getFullYear()) * 12
+    // months -= curr_date.getMonth()
+    // months += end_date.getMonth()
+    // months = months <= 0 ? 1 : months
     switch (event.recurrence) {
       // case 'daily':
       //   for (let i = 1; i <= curr_days_in_month * months; i++) {
@@ -210,29 +204,28 @@ export class MyCalendar extends Component {
       //     )
       //   }
       //   break
-      case 'weekly':
-        let new_date = new Date(
-          curr_date.getFullYear(),
-          curr_date.getMonth(),
-          curr_date.getDate()
-        )
+      // case 'weekly':
+      //   let new_date = new Date(
+      //     curr_date.getFullYear(),
+      //     curr_date.getMonth(),
+      //     curr_date.getDate()
+      //   )
 
-        for (let i = 1; i < curr_days_in_month / 7; i++) {
-          new_date = new Date(
-            curr_date.getFullYear(),
-            curr_date.getMonth(),
-            curr_date.getDate() + 7 * i
-          )
-          console.log(new_date)
-          this.addEvent(
-            new_date,
-            new_date,
-            event.title,
-            event.recurrence,
-            event.id
-          )
-        }
-        break
+      //   for (let i = 1; i < curr_days_in_month / 7; i++) {
+      //     new_date = new Date(
+      //       curr_date.getFullYear(),
+      //       curr_date.getMonth(),
+      //       curr_date.getDate() + 7 * i
+      //     )
+      //     this.addEvent(
+      //       new_date,
+      //       new_date,
+      //       event.title,
+      //       event.recurrence,
+      //       event.id
+      //     )
+      //   }
+      //   break
       case 'monthly':
         {
           let new_date = new Date()
@@ -293,15 +286,12 @@ export class MyCalendar extends Component {
     this.state.end = event.end
 
     this.state.events.forEach((event) => {
-      this.checkReccurence(
-        {
-          date: event.start,
-          recurrence: event.recurrence,
-          title: event.title,
-          id: event.id,
-        },
-        true
-      )
+      this.checkReccurence({
+        date: event.start,
+        recurrence: event.recurrence,
+        title: event.title,
+        id: event.id,
+      })
     })
   }
   componentDidMount = async () => {
@@ -328,9 +318,6 @@ export class MyCalendar extends Component {
   render() {
     return (
       <div className='Calendar'>
-        {/* <Button variant='primary' onClick={this.handleShow}>
-          Launch demo modal
-        </Button> */}
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Create Event</Modal.Title>
@@ -358,7 +345,7 @@ export class MyCalendar extends Component {
               >
                 <option value='none'>None</option>
                 {/* <option value='daily'>Daily</option> */}
-                <option value='weekly'>Weekly For a Month</option>
+                {/* <option value='weekly'>Weekly</option> */}
                 <option value='monthly'>Monthly</option>
                 <option value='yearly'>Yearly</option>
               </Form.Control>
