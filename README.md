@@ -1,10 +1,14 @@
 # Singularity-Challenge
 A web application that manages calendar entries
+
+
 **Available Functionalities:**
 View your calendar
 Create a calendar entry displaying a certain event
 Edit available entries
 Specify a recurring entry whether monthly or yearly
+
+
 **Website Walkthrough: a guideline through various libraries**
 
 Mongoose: is used primarily for database interactions such as
