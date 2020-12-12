@@ -15,7 +15,7 @@ const updateValidation = (request) => {
   const calendarSchema = Joi.object({
     id: Joi.objectId().required(),
     title: Joi.string().optional(),
-    date: Joi.iso().date().optional(),
+    date: Joi.date().iso().optional(),
     recurrence: Joi.string()
       .valid('none', 'daily', 'weekly', 'monthly', 'yearly')
       .optional(),
